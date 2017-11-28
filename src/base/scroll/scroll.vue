@@ -6,7 +6,6 @@
 
 <script type="text/ecmascript-6">
   import BScroll from 'better-scroll'
-  import Vue from 'vue'
   export default {
     props: {
       probeType: {
@@ -16,6 +15,10 @@
       click: {
         type: Boolean,
         default: true
+      },
+      listenScroll: {
+        type: Boolean,
+        default: false
       },
       data: {
         type: Array,
@@ -33,15 +36,21 @@
           return
         }
         this.scroll = new BScroll(this.$refs.wrapper, {
-          poobeType: this.probeType,
+          probeType: this.probeType,
           click: this.click
         })
-      },
-      enable() {
-        this.scroll && this.scroll.enable()
+        if (this.listenScroll) {
+          let me = this
+          this.scroll.on('scroll', (pos) => {
+            me.$emit('scroll', pos)
+          })
+        }
       },
       disable() {
         this.scroll && this.scroll.disable()
+      },
+      enable() {
+        this.scroll && this.scroll.enable()
       },
       refresh() {
         this.scroll && this.scroll.refresh()
@@ -53,29 +62,15 @@
         this.scroll && this.scroll.scrollToElement.apply(this.scroll, arguments)
       }
     },
-    data () {
-      return {
-
-      }
-    },
-    components: {
-
-    },
     watch: {
       data() {
-        /* setTimeout(() => {
+        setTimeout(() => {
           this.refresh()
-        }, 20) */
-
-        Vue.nextTick(() => {
-          this.refresh()
-        })
+        }, 20)
       }
     }
   }
 </script>
 
 <style scoped lang="stylus" rel="stylesheet/stylus">
-
-
 </style>
