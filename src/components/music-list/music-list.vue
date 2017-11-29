@@ -6,20 +6,22 @@
     <h1 class="title" v-html="title"></h1>
     <div class="bg-image" :style="bgStyle" ref="bgImage">
       <div class="play-wrapper">
-        <div ref="playBtn" v-show="songs.length>0" class="play" @click="random">
-          <i class="icon-play"></i>
+        <div class="play" ref="playBtn">
+          <i class="icon-play" v-show="songs.length>0" ></i>
           <span class="text">随机播放全部</span>
         </div>
       </div>
       <div class="filter" ref="filter"></div>
     </div>
     <div class="bg-layer" ref="layer"></div>
-    <scroll :data="songs" @scroll="scroll"
-            :listen-scroll="listenScroll" :probe-type="probeType" class="list" ref="list">
+    <scroll @scroll="scroll" :probe-type="probeType" :listen-scroll="listenScroll" :data="songs" class="list" ref="list">
       <div class="song-list-wrapper">
         <song-list :songs="songs" :rank="rank" @select="selectItem"></song-list>
       </div>
       <div v-show="!songs.length" class="loading-container">
+        <loading></loading>
+      </div>
+      <div class="loading-container" v-show="!songs.length">
         <loading></loading>
       </div>
     </scroll>
@@ -216,6 +218,7 @@
       background: $color-background
     .list
       position: absolute
+      // overflow: hidden
       top: 0
       bottom: 0
       width: 100%
