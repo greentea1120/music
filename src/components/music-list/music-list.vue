@@ -18,9 +18,6 @@
       <div class="song-list-wrapper">
         <song-list :songs="songs" :rank="rank" @select="selectItem"></song-list>
       </div>
-      <div v-show="!songs.length" class="loading-container">
-        <loading></loading>
-      </div>
       <div class="loading-container" v-show="!songs.length">
         <loading></loading>
       </div>
@@ -33,7 +30,6 @@
   import Loading from 'base/loading/loading'
   import SongList from 'base/song-list/song-list'
   import {prefixStyle} from 'common/js/dom'
-  // import {playlistMixin} from 'common/js/mixin'
   import {mapActions} from 'vuex'
   const RESERVED_HEIGHT = 40
   const transform = prefixStyle('transform')
@@ -103,7 +99,14 @@
       ...mapActions([
         'selectPlay',
         'randomPlay'
-      ])
+      ]),
+      selectItem(item, index) {
+        this.selectPlay({
+          list: this.songs,
+          index
+        })
+      },
+      ...mapActions(['selectPlay'])
     },
     watch: {
       scrollY(newVal) {
