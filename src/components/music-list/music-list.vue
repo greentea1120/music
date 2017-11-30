@@ -100,6 +100,7 @@
         'selectPlay',
         'randomPlay'
       ]),
+      // eslint-disable-next-line
       selectItem(item, index) {
         this.selectPlay({
           list: this.songs,
