@@ -80,6 +80,7 @@
   import ProgressBar from 'base/progress-bar/progress-bar'
   import ProgressCircle from 'base/progress-circle/progress-circle'
   import {playMode} from 'common/js/config'
+  import {shuffle} from 'common/js/util'
 
   const transform = prefixStyle('transform')
   export default {
@@ -108,7 +109,8 @@
         'currentSong',
         'playing',
         'currentIndex',
-        'mode'
+        'mode',
+        'sequenceList'
       ])
     },
     data () {
@@ -243,6 +245,20 @@
       changeMode() {
         const mode = (this.mode + 1) % 3
         this.setPlayMode(mode)
+        let list = null
+        if (mode === playMode.random) {
+          list = shuffle(this.sequenceList)
+        } else {
+          list = this.sequenceList
+        }
+        this.resetCurrentIndex(list)
+        this.setPlaylist(list)
+      },
+      resetCurrentIndex(list) {
+        let index = list.findIndex(() => {
+          return item.id === this.currentSong.id
+        })
+        this.setCurrentIndex(index)
       },
       togglePlaying() {
         this.setPlayingState(!this.playing)
@@ -251,7 +267,8 @@
         setFullScreen: 'SET_FULL_SCREEN',
         setPlayingState: 'SET_PLAYING_STATE',
         setCurrentIndex: 'SET_CURRENT_INDEX',
-        setPlayMode: 'SET_PLAY_MODE'
+        setPlayMode: 'SET_PLAY_MODE',
+        setPlaylist: 'SET_PLAYLIST'
       })
     },
     watch: {
