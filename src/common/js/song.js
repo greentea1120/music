@@ -1,5 +1,5 @@
 import { getLyric, getVKey } from 'api/song'
-// import { getUid } from './uid'
+import { getUid } from './uid'
 import { ERR_OK } from 'api/config'
 import { Base64 } from 'js-base64'
 
@@ -45,7 +45,7 @@ export default class Song {
     })
   }
 
-  /* _genUrl() {
+  _genUrl() {
     if (this.url) {
       return
     }
@@ -56,7 +56,7 @@ export default class Song {
         urlMap[this.id] = this.url
       }
     })
-  } */
+  }
 }
 
 export function createSong(musicData) {
